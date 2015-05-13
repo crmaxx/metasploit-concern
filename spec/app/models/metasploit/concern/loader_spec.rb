@@ -73,9 +73,7 @@ describe Metasploit::Concern::Loader do
   end
 
   subject(:loader) do
-    described_class.new(
-        root: root
-    )
+    described_class.new(root: root)
   end
 
   #
@@ -83,9 +81,8 @@ describe Metasploit::Concern::Loader do
   #
 
   def remove_root
-    if root.exist?
-      root.rmtree
-    end
+    return unless root.exist?
+    root.rmtree
   end
 
   def root
@@ -225,9 +222,9 @@ describe Metasploit::Concern::Loader do
     it 'yields concerns' do
       concern_names = []
 
-      each_pathname_constant { |constant|
+      each_pathname_constant do |constant|
         concern_names << constant.name
-      }
+      end
 
       expect(concern_names).to match_array([concern_name])
     end
@@ -251,9 +248,9 @@ describe Metasploit::Concern::Loader do
     end
 
     let(:expected_module_pathnames) do
-      Array.new(2) { |i|
+      Array.new(2) do |i|
         root.join('metasploit', 'concern', "module_with_concerns#{i}")
-      }
+      end
     end
 
     let(:non_module_pathname) do
@@ -267,9 +264,9 @@ describe Metasploit::Concern::Loader do
         expected_module_pathname.mkpath
         concern_pathname = expected_module_pathname.join('concern_for_module.rb')
 
-        concern_pathname.open('w') { |f|
+        concern_pathname.open('w') do |f|
           f.puts '# A concern'
-        }
+        end
       end
     end
 
@@ -353,19 +350,17 @@ describe Metasploit::Concern::Loader do
         end
 
         it 'has base class loaded' do
-          expect {
+          expect do
             Metasploit::Concern::ModuleWithConcerns
-          }.not_to raise_error
+          end.not_to raise_error
 
           expect(Metasploit::Concern::ModuleWithConcerns).to be_a Class
         end
 
         it 'includes concerns' do
-          expect {
-            register
-          }.to change {
-                 Metasploit::Concern::ModuleWithConcerns.ancestors.map(&:name).include? concern_name
-               }.to(true)
+          expect { register }.to change {
+            Metasploit::Concern::ModuleWithConcerns.ancestors.map(&:name).include? concern_name
+          }.to(true)
         end
 
         it 'does not end up with two copies of concern when reloaded' do
@@ -374,15 +369,13 @@ describe Metasploit::Concern::Loader do
           Metasploit::Concern::ModuleWithConcerns
           expect(Metasploit::Concern::ModuleWithConcerns.ancestors.map(&:name).count(concern_name)).to eq(1)
 
-          expect {
-            ActiveSupport::Dependencies.clear
-          }.not_to change {
-                 Metasploit::Concern::ModuleWithConcerns.constants.include? concern_relative_name.to_sym
-               }
+          expect { ActiveSupport::Dependencies.clear }.not_to change {
+            Metasploit::Concern::ModuleWithConcerns.constants.include? concern_relative_name.to_sym
+          }
 
           Metasploit::Concern::ModuleWithConcerns.send(
-              :include,
-              Metasploit::Concern::ModuleWithConcerns::ConcernForModule
+            :include,
+            Metasploit::Concern::ModuleWithConcerns::ConcernForModule
           )
 
           expect(Metasploit::Concern::ModuleWithConcerns.ancestors.map(&:name).count(concern_name)).to eq(1)
@@ -395,19 +388,17 @@ describe Metasploit::Concern::Loader do
         end
 
         it 'has base class loaded' do
-          expect {
+          expect do
             Metasploit::Concern::ModuleWithConcerns
-          }.not_to raise_error
+          end.not_to raise_error
 
           expect(Metasploit::Concern::ModuleWithConcerns).to be_a Class
         end
 
         it 'includes concerns' do
-          expect {
-            register
-          }.to change {
-                 Metasploit::Concern::ModuleWithConcerns.ancestors.map(&:name).include? concern_name
-               }.to(true)
+          expect { register }.to change {
+            Metasploit::Concern::ModuleWithConcerns.ancestors.map(&:name).include? concern_name
+          }.to(true)
         end
 
         it 'does not end up with two copies of concern when reloaded and included' do
