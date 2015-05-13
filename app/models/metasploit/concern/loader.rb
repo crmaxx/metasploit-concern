@@ -16,8 +16,7 @@ class Metasploit::Concern::Loader
   # Validations
   #
 
-  validates :root,
-            presence: true
+  validates :root, presence: true
 
   #
   # Methods
@@ -35,13 +34,11 @@ class Metasploit::Concern::Loader
   def each_pathname_constant(mechanism:, parent_pathname:)
     parent_pathname.each_child do |child_pathname|
       constant = constantize_pathname(
-          mechanism: mechanism,
-          pathname: child_pathname
+        mechanism: mechanism,
+        pathname: child_pathname
       )
 
-      if constant
-        yield constant
-      end
+      yield constant if constant
     end
   end
 
@@ -53,7 +50,7 @@ class Metasploit::Concern::Loader
   end
 
   # @param attributes [Hash{Symbol => String,nil}]
-  def initialize(attributes={})
+  def initialize(attributes = {})
     attributes.each do |attribute, value|
       public_send("#{attribute}=", value)
     end
@@ -65,12 +62,12 @@ class Metasploit::Concern::Loader
   def module_pathname_set
     concern_paths = Dir.glob(glob)
 
-    concern_paths.each_with_object(Set.new) { |concern_path, module_pathname_set|
+    concern_paths.each_with_object(Set.new) do |concern_path, module_pathname_set|
       concern_pathname = Pathname.new(concern_path)
       module_pathname = concern_pathname.parent
 
       module_pathname_set.add module_pathname
-    }
+    end
   end
 
   # Registers load hooks with `ActiveSupport.on_load`.

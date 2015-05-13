@@ -7,8 +7,8 @@ if ENV['TRAVIS'] == 'true'
   SimpleCov.formatter = Coveralls::SimpleCov::Formatter
 else
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
-      # either generate the local report
-      SimpleCov::Formatter::HTMLFormatter
+    # either generate the local report
+    SimpleCov::Formatter::HTMLFormatter
   ]
 end
 
@@ -16,7 +16,7 @@ require 'aruba/cucumber'
 # only does jruby customization if actually in JRuby
 require 'aruba/jruby'
 
-if ['jruby', 'rbx'].include? RUBY_ENGINE
+if %w(jruby rbx).include? RUBY_ENGINE
   Before do
     @aruba_timeout_seconds = 12
   end

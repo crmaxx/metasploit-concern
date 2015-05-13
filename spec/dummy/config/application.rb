@@ -49,4 +49,3 @@ module Dummy
     config.paths.add 'app/concerns', autoload: true
   end
 end
-

@@ -7,11 +7,9 @@ module Dummy::ModelWithConcern::ConcernForModel
 
   module ClassMethods
     def class_method_from_concern
-
     end
   end
 
   def instance_method_from_concern
-
   end
 end

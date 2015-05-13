@@ -1,6 +1,7 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 
+require 'minitest/autorun'
 require 'rubygems'
 require 'bundler'
 Bundler.setup(:default, :test)
@@ -15,8 +16,8 @@ if ENV['TRAVIS'] == 'true'
   SimpleCov.formatter = Coveralls::SimpleCov::Formatter
 else
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
-      # either generate the local report
-      SimpleCov::Formatter::HTMLFormatter
+    # either generate the local report
+    SimpleCov::Formatter::HTMLFormatter
   ]
 end
 

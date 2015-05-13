@@ -16,15 +16,12 @@ group :development, :test do
   # rails is not used because activerecord should not be included, but rails would normally coordinate the versions
   # between its dependencies, which is now handled by this constraint.
   # @todo MSP-9654
-  rails_version_constraint = [
-      '>= 4.0.9',
-      '< 4.1.0'
-  ]
-  
+  rails_version_constraint = '>= 4.2.1'
+
   # Dummy app uses actionpack for ActionController, but not rails since it doesn't use activerecord.
-  gem 'actionpack', *rails_version_constraint
+  gem 'actionpack', rails_version_constraint
   # Engine tasks are loaded using railtie
-  gem 'railties', *rails_version_constraint
+  gem 'railties', rails_version_constraint
   # need rspec-rails >= 2.12.0 as 2.12.0 adds support for redefining named subject in nested context that uses the
   # named subject from the outer context without causing a stack overflow.
   gem 'rspec-rails', '>= 2.12.0'
@@ -44,5 +41,5 @@ group :test do
   # @see https://github.com/thoughtbot/shoulda-matchers/issues/480
   gem 'shoulda-matchers', '< 2.6.0'
   # code coverage of tests
-  gem 'simplecov', :require => false
+  gem 'simplecov', require: false
 end

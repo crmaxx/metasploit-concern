@@ -17,9 +17,9 @@ describe Metasploit::Concern::Engine do
         # lets
         #
 
-        let(:application) {
+        let(:application) do
           Class.new(Rails::Engine)
-        }
+        end
 
         let(:context) {
           Object.new
